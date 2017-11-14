@@ -119,5 +119,13 @@ class model
 
 		echo 'I just saved record: ' . $this->id;
 	}
-
-
+	
+	public function delete($id)
+	{
+		$db = dbConn::getConnection();
+		$tableName = todo::getTableName();
+		$sql = 'DELETE FROM ' . $tableName . ' WHERE id =' . $id;
+		$statement = $db->prepare($sql);
+		$statement->execute();
+		return $statement;
+	}
