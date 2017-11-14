@@ -79,3 +79,45 @@ class collection
 		return $recordsSet[0];
 	}
 }
+
+class accounts extends collection
+{
+	protected static $modelName = 'account';
+}
+
+class todos extends collection
+{
+	protected static $modelName = 'todo';
+}
+
+class model
+{
+	protected $tableName;
+	public function save()
+	{
+		if ($this->id = '')
+		{
+			$sql = $this->insert();
+		}
+
+		else
+		{
+			$sql = $this->update();
+		}
+		
+		$db = dbConn::getConnection();
+		$statement = $db->prepare($sql);
+		$statement->execute();
+
+		$tableName = get_called_class();
+		
+		$array = get_object_vars($this);
+		$columnString = implode(',', $array);
+		$valueString = ":".implode(',:', $array);
+
+		// echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
+
+		echo 'I just saved record: ' . $this->id;
+	}
+
+
