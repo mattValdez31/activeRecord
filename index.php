@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 define('DATABASE', 'mjv32');
 define('USERNAME', 'mjv32');
-define('PASSWORD', '');
+define('PASSWORD', 'ccYhBxVxR');
 define('CONNECTION', 'sql2.njit.edu');
 
 class dbConn
@@ -56,7 +56,7 @@ class collection
 	static public function findAll()
 	{
 		$db = dbConn::getConnection();
-		$tableName = get_called_class()
+		$tableName = get_called_class();
 		$sql = 'SELECT * FROM ' . $tableName;
 		$statement = $db->prepare($sql);
 		$statement->execute();
@@ -134,7 +134,7 @@ class model
 	{
 		$db = dbConn::getConnection();
 		$tableName = getTableName();
-		$sql = 'INSERT INTO ' . $tableName . ' VALUES (' . 
+		//$sql = 'INSERT INTO ' . $tableName . ' VALUES (' . 
 	}
 
 	private function update()
@@ -155,12 +155,15 @@ class account extends model
 	public $gender;
 	public $password;
 
-	$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
+	//public $col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
 
 	public function getTableName()
 	{
 		$tableName = 'accounts';
 	}
+
+	$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
+
 }
 
 class todo extends model
@@ -181,5 +184,8 @@ class todo extends model
 	}
 
 }
+
+$records = todos::findOne(1);
+print_r($record);
 
 ?>
