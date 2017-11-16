@@ -129,3 +129,39 @@ class model
 		$statement->execute();
 		return $statement;
 	}
+
+	private function insert()
+	{
+		
+	}
+
+	private function update()
+	{
+
+	}
+
+}
+
+class account extends model
+{
+	
+}
+
+class todo extends model
+{
+	public $id;
+	public $owneremail;
+	public $ownerid;
+	public $createddate;
+	public $duedate;
+	public $message;
+	public $isdone;
+
+	public function getTableName()
+	{
+		$tableName = 'todos';
+	}
+
+}
+
+?>
