@@ -132,7 +132,9 @@ class model
 
 	private function insert()
 	{
-		
+		$db = dbConn::getConnection();
+		$tableName = getTableName();
+		$sql = 'INSERT INTO ' . $tableName . ' VALUES (' . 
 	}
 
 	private function update()
@@ -153,6 +155,8 @@ class account extends model
 	public $gender;
 	public $password;
 
+	$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
+
 	public function getTableName()
 	{
 		$tableName = 'accounts';
@@ -168,6 +172,8 @@ class todo extends model
 	public $duedate;
 	public $message;
 	public $isdone;
+	
+	$col = array($id, $owneremail, $ownerid, $createddate, $duedate, $message, $isdone);
 
 	public function getTableName()
 	{
