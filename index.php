@@ -73,9 +73,8 @@ class collection
 		$sql = 'SELECT * FROM ' . $tableName . ' WHERE id =' . $id;
 		$statement = $db->prepare($sql);
 		$statement->execute();
-		$class = static::$modelName;
-		print $class;
-		$statement->setFetchMode(PDO::FETCH_CLASS, $class);
+		$class = static::$modelName; //$modelName from child class
+		$statement->setFetchMode(PDO::FETCH_CLASS, $class); //maps columns of each row to class variables
 		$recordsSet = $statement->fetchAll();
 		return $recordsSet[0];
 	}
@@ -187,6 +186,9 @@ class todo extends model
 }
 
 $records = todos::findOne(3);
+$record = accounts::findAll();
 print_r($records);
+print_r($record);
+
 
 ?>
