@@ -20,7 +20,7 @@ class dbConn
 		try
 		{
 			//assign PDO object to db variable
-			self::$db = new PDO( 'mysql:host=' . CONNECTION.':dbname=' . DATABASE, USERNAME, PASSWORD);
+			self::$db = new PDO( 'mysql:host=' . CONNECTION.';dbname=' . DATABASE, USERNAME, PASSWORD);
 			self::$db->setAttribute( PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		}
 		catch (PDOException $e)
@@ -69,11 +69,12 @@ class collection
 	static public function findOne($id)
 	{
 		$db = dbConn::getConnection();
-		$tableName = get_called_class();
+		$tableName = get_called_class(); //gets name of current class
 		$sql = 'SELECT * FROM ' . $tableName . ' WHERE id =' . $id;
 		$statement = $db->prepare($sql);
 		$statement->execute();
 		$class = static::$modelName;
+		print $class;
 		$statement->setFetchMode(PDO::FETCH_CLASS, $class);
 		$recordsSet = $statement->fetchAll();
 		return $recordsSet[0];
@@ -162,7 +163,7 @@ class account extends model
 		$tableName = 'accounts';
 	}
 
-	$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
+	//$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
 
 }
 
@@ -176,7 +177,7 @@ class todo extends model
 	public $message;
 	public $isdone;
 	
-	$col = array($id, $owneremail, $ownerid, $createddate, $duedate, $message, $isdone);
+	//$col = array($id, $owneremail, $ownerid, $createddate, $duedate, $message, $isdone);
 
 	public function getTableName()
 	{
@@ -185,7 +186,7 @@ class todo extends model
 
 }
 
-$records = todos::findOne(1);
-print_r($record);
+$records = todos::findOne(3);
+print_r($records);
 
 ?>
