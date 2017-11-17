@@ -93,7 +93,7 @@ class todos extends collection
 class model
 {
 	protected $tableName;
-	public function save()
+	static public function save()
 	{
 		if ($this->id = '')
 		{
@@ -120,24 +120,26 @@ class model
 		echo 'I just saved record: ' . $this->id;
 	}
 	
-	public function delete($id)
+	static public function remove($id)
 	{
 		$db = dbConn::getConnection();
-		$tableName = todo::getTableName();
-		$sql = 'DELETE FROM ' . $tableName . ' WHERE id =' . $id;
+		$class = get_called_class();
+		$tableName = $class::getTableName();
+		$sql = 'DELETE FROM ' . $tableName . ' WHERE id = ' . $id;
+		
 		$statement = $db->prepare($sql);
 		$statement->execute();
 		return $statement;
 	}
 
-	private function insert()
+	static private function insert()
 	{
 		$db = dbConn::getConnection();
 		$tableName = getTableName();
 		//$sql = 'INSERT INTO ' . $tableName . ' VALUES (' . 
 	}
 
-	private function update()
+	static private function update()
 	{
 
 	}
@@ -157,9 +159,10 @@ class account extends model
 
 	//public $col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
 
-	public function getTableName()
+	static public function getTableName()
 	{
 		$tableName = 'accounts';
+		return $tableName;
 	}
 
 	//$col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
@@ -178,17 +181,20 @@ class todo extends model
 	
 	//$col = array($id, $owneremail, $ownerid, $createddate, $duedate, $message, $isdone);
 
-	public function getTableName()
+	static public function getTableName()
 	{
 		$tableName = 'todos';
+		return $tableName;
 	}
 
 }
 
-$records = todos::findOne(3);
-$record = accounts::findAll();
-print_r($records);
-print_r($record);
+//$records = todos::findOne(3);
+//$record = accounts::findAll();
+$del = account::remove(15);
 
+//print_r($records);
+//print_r($record);
+print_r($del);
 
 ?>
