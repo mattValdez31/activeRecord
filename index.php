@@ -93,12 +93,11 @@ class todos extends collection
 class model
 {
 	protected $tableName;
-	static public function save()
+	public function save()
 	{
+		//$columns = get_object_vars($this);
 		$class = get_called_class();
 		$tableName = $class::getTableName();
-		//$columns = get_object_vars($this);
-		//print_r($columns);
 
 		if ($this->id = '')
 		{
@@ -107,7 +106,7 @@ class model
 
 		else
 		{
-			$sql = $this->update();
+			$sql = $this->insert($tableName);
 		}
 		
 		$db = dbConn::getConnection();
@@ -115,14 +114,16 @@ class model
 		$statement->execute();
 		
 		//$tableName = get_called_class();
-		
+		$class = get_called_class();
+		$tableName = $class::getTableName();
+
 		$array = get_object_vars($this);
 		$columnString = implode(',', $array);
 		$valueString = ":".implode(',:', $array);
 
-		// echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
+		echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
 
-		echo 'I just saved record: ' . $this->id;*/
+		echo 'I just saved record: ' . $this->id;
 	}
 	
 	static public function remove($id)
@@ -137,11 +138,12 @@ class model
 		return $statement;
 	}
 
-	static private function insert()
+	private function insert($tableName)
 	{
-		$sql = 'INSERT INTO ' . $tableName . ' (' . $col[0] . $col[1] .$col[2] . $col[3] . $col[4] .
-			$col[5] . $col[6] . $col[7] . ') VALUES (' . $this->id . $this->email . $this->fname .
-			$this->lname . $this->phone . $this->birthday . $this->gender . $this->password . ')';
+		$sql = 'INSERT INTO ' . $tableName . ' (' . $this->col[0] . $this->col[1] . $this->col[2] .
+		$this->col[3] . $this->col[4] . $this->col[5] . $this->col[6] . $this->col[7] . ') VALUES (' .
+		$this->id . $this->email . $this->FNAME . $this->lname . $this->phone . $this->birthday . $this->gender . $this->password . ')';
+		return $sql;
 	}
 
 	static private function update()
@@ -155,16 +157,21 @@ class account extends model
 {
 	public $id;
 	public $email;
-	public $fname;
+	public $FNAME;
 	public $lname;
 	public $phone;
 	public $birthday;
 	public $gender;
 	public $password;
 
-	$col = array('id', 'email', 'fname', 'lname', 'phone', 'birthday', 'gender', 'password');
+	public $col = array('id', 'email', 'fname', 'lname', 'phone', 'birthday', 'gender', 'password');
 
-	static public function getTableName()
+	public function __construct()
+	{
+		$this->tableName = 'accounts';
+	}
+
+	public function getTableName()
 	{
 		$tableName = 'accounts';
 		return $tableName;
@@ -197,8 +204,11 @@ class todo extends model
 //$records = todos::findOne(3);
 //$record = accounts::findAll();
 //$del = account::remove(15);
-$obj = new account;
-$obj->save();
+$rec = new account();
+$rec->id = 14;
+$rec->FNAME = 'att';
+$rec->message = 'some task';
+$rec->save();
 //print_r($records);
 //print_r($record);
 //print_r($del);
