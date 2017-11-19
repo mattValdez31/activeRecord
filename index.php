@@ -95,6 +95,11 @@ class model
 	protected $tableName;
 	static public function save()
 	{
+		$class = get_called_class();
+		$tableName = $class::getTableName();
+		//$columns = get_object_vars($this);
+		//print_r($columns);
+
 		if ($this->id = '')
 		{
 			$sql = $this->insert();
@@ -108,8 +113,8 @@ class model
 		$db = dbConn::getConnection();
 		$statement = $db->prepare($sql);
 		$statement->execute();
-
-		$tableName = get_called_class();
+		
+		//$tableName = get_called_class();
 		
 		$array = get_object_vars($this);
 		$columnString = implode(',', $array);
@@ -117,7 +122,7 @@ class model
 
 		// echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
 
-		echo 'I just saved record: ' . $this->id;
+		echo 'I just saved record: ' . $this->id;*/
 	}
 	
 	static public function remove($id)
@@ -134,9 +139,9 @@ class model
 
 	static private function insert()
 	{
-		$db = dbConn::getConnection();
-		$tableName = getTableName();
-		//$sql = 'INSERT INTO ' . $tableName . ' VALUES (' . 
+		$sql = 'INSERT INTO ' . $tableName . ' (' . $col[0] . $col[1] .$col[2] . $col[3] . $col[4] .
+			$col[5] . $col[6] . $col[7] . ') VALUES (' . $this->id . $this->email . $this->fname .
+			$this->lname . $this->phone . $this->birthday . $this->gender . $this->password . ')';
 	}
 
 	static private function update()
@@ -157,7 +162,7 @@ class account extends model
 	public $gender;
 	public $password;
 
-	//public $col = array($id, $email, $fname, $lname, $phone, $birthday, $gender, $password);
+	$col = array('id', 'email', 'fname', 'lname', 'phone', 'birthday', 'gender', 'password');
 
 	static public function getTableName()
 	{
@@ -191,10 +196,11 @@ class todo extends model
 
 //$records = todos::findOne(3);
 //$record = accounts::findAll();
-$del = account::remove(15);
-
+//$del = account::remove(15);
+$obj = new account;
+$obj->save();
 //print_r($records);
 //print_r($record);
-print_r($del);
+//print_r($del);
 
 ?>
